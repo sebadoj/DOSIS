@@ -272,8 +272,8 @@ body.anim .confirm{transition:width .55s var(--ease),height .55s var(--ease),bor
 .confirm.go .lbl{opacity:0}
 .confirm.go .chk{opacity:1}
 .confirm.go .chk path{stroke-dashoffset:0;animation:draw .5s .45s var(--ease) backwards}
-.done{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
-.done .okmsg{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800;color:var(--ok)}
+#res-done{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+#res-done .okmsg{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800;color:var(--ok)}
 /* Mano con pulgar arriba */
 .hand{position:relative;width:120px;height:120px;display:grid;place-items:center}
 .hand::before{content:"";position:absolute;inset:8px;border-radius:50%;background:color-mix(in srgb,var(--ok) 14%,transparent);animation:handring .9s var(--ease) backwards}
@@ -284,10 +284,10 @@ body.anim .confirm{transition:width .55s var(--ease),height .55s var(--ease),bor
 .hand .cuff{fill:var(--ok);fill-opacity:.45}
 .hand .knuckles{fill:none;stroke:var(--surface);stroke-opacity:.55;stroke-width:3;stroke-linecap:round}
 .burst span{position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-4.5px;border-radius:50%;background:var(--c);opacity:0;animation:burst 1s .5s var(--ease)}
-.done p{font-size:14px}
-.done>*{animation:rise .6s var(--ease) backwards}
-.done>*:nth-child(2){animation-delay:.1s}
-.done>*:nth-child(3){animation-delay:.2s}
+#res-done p{font-size:14px}
+#res-done>*{animation:rise .6s var(--ease) backwards}
+#res-done>*:nth-child(2){animation-delay:.1s}
+#res-done>*:nth-child(3){animation-delay:.2s}
 
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{text-align:left;padding:10px 0;border-bottom:1px solid var(--line)}
@@ -405,7 +405,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
 .btn.primary{background:var(--grad);border-color:transparent;box-shadow:0 14px 28px -14px var(--accent)}
 .btn.primary:disabled{box-shadow:none}
 .icon-btn{border-radius:16px;box-shadow:var(--shadow)}
-#view-meal .bigtitle .tile{background:var(--mc,var(--accent));color:#fff;border-radius:24px;box-shadow:0 16px 30px -14px var(--mc,var(--accent))}
+#view-hipo .bigtitle .tile,#view-col .bigtitle .tile,#view-meal .bigtitle .tile{background:var(--mc,var(--accent));color:#fff;border-radius:24px;box-shadow:0 16px 30px -14px var(--mc,var(--accent))}
 .basic{border-radius:24px;background:linear-gradient(160deg,var(--accent-soft),color-mix(in srgb,var(--accent-soft) 35%,var(--surface)))}
 .gly-row{border-radius:22px;padding:10px 20px;background:var(--surface)}
 .overlay{background:rgba(6,12,22,.5);backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2)}
@@ -482,6 +482,74 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
 #done-sync.ok{color:var(--ok)}
 #done-sync.pend{color:var(--warn)}
 #done-sync.err{color:var(--crit)}
+
+/* ===== v9: tendencia de la glicemia ===== */
+.trendwrap{display:flex;flex-direction:column;gap:8px}
+.trend-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.tr-lbl{font-size:14px;font-weight:700;color:var(--muted)}
+.tr-lbl.on{color:var(--accent)}
+.trend{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tr-btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:18px;height:60px;display:grid;place-items:center;cursor:pointer;padding:0;touch-action:manipulation;transition:background .2s,border-color .2s,color .2s,transform .3s var(--spring),box-shadow .3s var(--ease)}
+.tr-btn svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.tr-btn:hover{border-color:var(--accent)}
+.tr-btn[aria-pressed="true"]{background:var(--grad,var(--accent));border-color:transparent;color:var(--on-accent);transform:scale(1.06);box-shadow:0 12px 22px -12px var(--accent)}
+.tr-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg.tri{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.12em;margin-left:4px}
+
+/* ===== v9: otros registros (hipoglicemia y colación) ===== */
+[data-meal="hipo"]{--mc:#d92d20}
+[data-meal="colacion"]{--mc:#0e9f6e}
+.mealrow.hipo-row{border-color:color-mix(in srgb,#d92d20 35%,var(--line))}
+.mealrow.hipo-row .txt b{color:#d92d20}
+:root[data-theme="dark"] .mealrow.hipo-row .txt b{color:#ff7a70}
+#view-hipo .bigtitle h2{font-size:clamp(30px,9.2vw,50px)}
+#view-hipo .bigtitle{gap:12px}
+.step-kick{display:inline-flex;align-self:flex-start;font:800 14px var(--font-body);letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border-radius:999px;background:var(--mc,var(--accent));color:#fff}
+.instr{font-size:clamp(22px,6.4vw,28px);font-weight:800;line-height:1.25;letter-spacing:-.01em;border-radius:22px;padding:18px 20px;background:color-mix(in srgb,var(--mc,var(--accent)) 12%,var(--surface));border:1.5px solid color-mix(in srgb,var(--mc,var(--accent)) 35%,transparent)}
+.view-in .instr{animation:sheetpop .7s var(--spring) .2s backwards}
+.txt-area{width:100%;min-height:96px;resize:vertical;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:18px;padding:14px 16px;font:600 18px var(--font-body);line-height:1.35}
+.txt-area:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.hipo-pill{background:linear-gradient(135deg,#e5484d,#b4231b);box-shadow:0 14px 28px -14px #d92d20}
+.timer-ov.hipo{background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,#d92d20 16%,var(--bg)),var(--bg) 70%)}
+.timer-ov.hipo .ring .bar{stroke:#d92d20}
+.timer-ov.hipo .t-kick{color:#d92d20}
+.alarm-ov{background:linear-gradient(160deg,#e5484d,#a1160f);animation:fadein .35s var(--ease),eatbg 1.6s ease-in-out infinite}
+.alarm-ov .btn{color:#a1160f}
+.fine-ov{animation:fadein .35s var(--ease)}
+.fine-ov .eat-big{font-size:clamp(54px,17vw,96px);animation:eatpulse 1.6s ease-in-out infinite}
+.fine-ov .btn{width:100%;max-width:380px}
+
+/* Cartel OK genérico (colación) */
+.okcirc{width:96px;height:96px;border-radius:50%;background:var(--ok);display:grid;place-items:center;margin:4px auto 0;animation:okpop .6s var(--spring) .1s backwards,ring 1s .4s ease-out}
+.okcirc svg{width:52px;height:52px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.okcirc path{stroke-dasharray:24;stroke-dashoffset:0;animation:draw .5s .35s var(--ease) backwards}
+.sheet.center{text-align:center;align-items:center}
+.sheet.center p{font-size:16px}
+.sheet .bigsum{font-size:20px;font-weight:800;color:var(--ink);line-height:1.3}
+
+/* Registro: hipoglicemias en rojo */
+.hist-row.red{background:color-mix(in srgb,var(--crit) 10%,transparent);border-radius:16px;padding:12px 10px;border-bottom-color:transparent;margin:4px 0;box-shadow:inset 3px 0 0 var(--crit)}
+.hist-row.red .mm,.hist-row.red .hh{color:var(--crit)}
+.hist-row .tag.hipo{background:var(--crit);color:#fff;font-size:12px;letter-spacing:.06em}
+.hist-row .tag.aj{background:var(--accent-soft);color:var(--accent)}
+.hist-row .gl.none{background:transparent;color:var(--muted);padding:0}
+
+/* Dosis fijas protegidas */
+.lockbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-radius:18px;padding:12px 14px;background:var(--bg);border:1px solid var(--line)}
+.lockbar .lk{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.lockbar .lk .ico{width:22px;height:22px;color:var(--muted)}
+.lockbar.open{background:color-mix(in srgb,var(--ok) 10%,var(--surface));border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.lockbar.open .lk .ico{color:var(--ok)}
+.dosehead,.doserow{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px;align-items:center}
+.dosehead span{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.doserow b{font-size:15px}
+.doserow .na{font:600 15px var(--font-num);color:var(--muted);padding-left:10px}
+#doses{display:flex;flex-direction:column;gap:8px}
+.num-in:disabled{opacity:.6;cursor:not-allowed}
+.locked-note{font-size:13px;color:var(--muted)}
+.pw-in{font:700 20px var(--font-num);padding:14px 16px;border-radius:16px;letter-spacing:.05em}
+.chglist{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:16px;color:var(--ink)}
+.sheet.shake{animation:shake .45s}
 </style>
 </head>
 <body class="anim">
@@ -498,6 +566,10 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
     <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
     <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M12 9v4M12 16.5v.01"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 24 24"><path d="M12 7c-1.5-1.3-4-1.6-5.6-.2C4.5 8.4 4.6 12 6 15c1.2 2.6 3 4.6 4.5 4.6.7 0 1-.4 1.5-.4s.8.4 1.5.4c1.5 0 3.3-2 4.5-4.6 1.4-3 1.5-6.6-.4-8.2C16 5.4 13.5 5.7 12 7z"/><path d="M12 7c0-2 1-3.5 3-4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 7.7-1.5"/></symbol>
 
     <!-- Lapiceras de insulina -->
     <symbol id="pen-rapi" viewBox="0 0 132 34">
@@ -541,7 +613,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   <section class="card panel" id="panel" hidden aria-label="Personalizar">
     <div class="panel-head">
       <h2>Personalizar</h2>
-      <button class="icon-btn fx" id="btn-reset" type="button">Restablecer todo</button>
+      <button class="icon-btn fx" id="btn-reset" type="button" title="Restablece colores, fondo y tipografía. No cambia dosis ni corrección.">Restablecer apariencia</button>
     </div>
 
     <div class="group only-browser" id="grp-install" hidden>
@@ -572,6 +644,17 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
       </div>
     </div>
 
+    <div class="group" id="grp-doses">
+      <div class="label">Dosis fijas</div>
+      <div class="lockbar" id="lockbar">
+        <span class="lk"><svg class="ico" aria-hidden="true"><use id="lock-ico" href="#i-lock"/></svg><span id="lock-txt">Bloqueado</span></span>
+        <button class="chip fx" type="button" id="btn-lock">Desbloquear</button>
+      </div>
+      <p class="locked-note" id="lock-note">Para cambiar las dosis fijas o la corrección hace falta la contraseña de Juane o de Mamá/Papá. Cambialas solo si tu médico te lo indicó.</p>
+      <div class="dosehead" aria-hidden="true"><span>Momento</span><span>NPH (U)</span><span>RAPI bolo (U)</span></div>
+      <div id="doses"></div>
+    </div>
+
     <div class="group" id="grp-bands">
       <div class="label">Corrección con RAPI</div>
       <p class="hint">Unidades de RAPI según la glicemia (mg/dL). Cambialas solo si tu médico te lo indicó.</p>
@@ -587,6 +670,12 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
         <input class="num-in" id="low-in" type="number" inputmode="numeric" min="0" step="1">
         <span class="unit">mg/dL</span>
       </div>
+      <div class="actions-row chips" id="edit-actions" hidden>
+        <button class="btn primary fx" type="button" id="dose-save">Guardar cambios</button>
+        <button class="btn fx" type="button" id="dose-discard">Descartar</button>
+        <button class="chip fx" type="button" id="dose-restore">Restaurar dosis y rangos originales</button>
+      </div>
+      <p class="hint" id="dose-msg" role="status"></p>
     </div>
 
     <div class="group">
@@ -643,13 +732,14 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   
     <div class="appver" aria-label="Versión de la app">
       <span class="av-name">MIDOSIS</span>
-      <span class="av-num">Versión <b id="app-ver">8</b> · <span id="app-date">20261118</span></span>
+      <span class="av-num">Versión <b id="app-ver">9</b> · <span id="app-date">20261118</span></span>
     </div>
   </section>
 
   <!-- INICIO -->
   <div class="view view-in" id="view-home">
     <div class="fam-banner" id="fam-banner" hidden>Modo familia: solo lectura. Las dosis las registra el usuario principal.</div>
+    <button class="timer-pill hipo-pill fx" id="hipo-pill" type="button" hidden><span id="hp-lbl">Hipoglicemia · medir en</span><span class="pt" id="hp-txt">15:00</span></button>
     <button class="timer-pill fx" id="timer-pill" type="button" hidden><span>A comer en</span><span class="pt" id="tp-txt">15:00</span></button>
     <section class="card" aria-label="Elegir comida">
       <div class="clock">
@@ -658,6 +748,22 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
       </div>
       <div class="prog"><div class="progbar"><i id="prog-fill"></i></div><span id="prog-txt">0 de 5 registradas hoy</span></div>
       <div class="mealrows" id="mealrows"></div>
+    </section>
+
+    <section class="card" id="extra-card" aria-label="Otros registros">
+      <div class="label">Otros registros</div>
+      <div class="mealrows">
+        <button class="mealrow hipo-row fx" type="button" id="row-hipo" data-meal="hipo">
+          <span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg></span>
+          <span class="txt"><b>Hipoglicemia</b><span id="row-hipo-sub">Primera y segunda ingesta</span></span>
+          <svg class="ico" aria-hidden="true" style="color:var(--muted)"><use href="#i-chev"/></svg>
+        </button>
+        <button class="mealrow fx" type="button" id="row-col" data-meal="colacion">
+          <span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-apple"/></svg></span>
+          <span class="txt"><b>Colación</b><span>Qué comiste y glicemia</span></span>
+          <svg class="ico" aria-hidden="true" style="color:var(--muted)"><use href="#i-chev"/></svg>
+        </button>
+      </div>
     </section>
 
     <section class="card" id="hist-card" aria-label="Registro">
@@ -675,13 +781,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
         <div class="scroll">
         <table>
           <thead><tr><th>Momento</th><th>NPH</th><th>RAPI</th></tr></thead>
-          <tbody>
-            <tr><td>Desayuno</td><td class="n">12 U</td><td class="n">3 U</td></tr>
-            <tr><td>Almuerzo</td><td class="n">—</td><td class="n">5 U</td></tr>
-            <tr><td>Merienda</td><td class="n">—</td><td class="n">3 U</td></tr>
-            <tr><td>Cena</td><td class="n">—</td><td class="n">5 U</td></tr>
-            <tr><td>Pre dormir</td><td class="n">12 U</td><td class="n">—</td></tr>
-          </tbody>
+          <tbody id="tbl-doses"></tbody>
         </table>
         </div>
       </section>
@@ -717,7 +817,57 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
           <span class="unit">mg/dL</span>
         </div>
       </div>
+      <div id="m-trend"></div>
       <button class="btn primary block fx" id="btn-ok" type="button" disabled>OK</button>
+    </section>
+  </div>
+
+  <!-- HIPOGLICEMIA -->
+  <div class="view" id="view-hipo" data-meal="hipo" hidden>
+    <section class="card" aria-label="Hipoglicemia">
+      <button class="btn back fx" id="h-back" type="button"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Inicio</button>
+      <div class="bigtitle">
+        <span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg></span>
+        <div class="mask"><h2>Hipoglicemia</h2></div>
+      </div>
+      <span class="step-kick" id="h-step">Primera ingesta</span>
+      <div class="instr" id="h-instr"></div>
+      <div class="gly">
+        <label class="label" for="h-gl" id="h-gl-lbl">Glicemia actual</label>
+        <div class="gly-row">
+          <svg class="ico" aria-hidden="true"><use href="#i-drop"/></svg>
+          <input id="h-gl" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="---" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <span class="unit">mg/dL</span>
+        </div>
+      </div>
+      <div id="h-trend"></div>
+      <button class="btn primary block fx" id="h-ok" type="button" disabled>OK</button>
+      <button class="btn ghost block fx" id="h-end" type="button" hidden style="font-size:15px;padding:12px">Terminar hipoglicemia</button>
+    </section>
+  </div>
+
+  <!-- COLACIÓN -->
+  <div class="view" id="view-col" data-meal="colacion" hidden>
+    <section class="card" aria-label="Colación">
+      <button class="btn back fx" id="c-back" type="button"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg>Inicio</button>
+      <div class="bigtitle">
+        <span class="tile"><svg class="ico" aria-hidden="true"><use href="#i-apple"/></svg></span>
+        <div class="mask"><h2>Colación</h2></div>
+      </div>
+      <div class="gly">
+        <label class="label" for="c-desc">¿Qué comiste?</label>
+        <textarea class="txt-area" id="c-desc" maxlength="200" rows="3" placeholder="Ej: una banana y un yogur"></textarea>
+      </div>
+      <div class="gly">
+        <label class="label" for="c-gl">Glicemia actual</label>
+        <div class="gly-row">
+          <svg class="ico" aria-hidden="true"><use href="#i-drop"/></svg>
+          <input id="c-gl" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" placeholder="---" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <span class="unit">mg/dL</span>
+        </div>
+      </div>
+      <div id="c-trend"></div>
+      <button class="btn primary block fx" id="c-ok" type="button" disabled>OK</button>
     </section>
   </div>
 </div>
@@ -802,12 +952,101 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   <button class="btn fx" id="eat-off" type="button">Apagar alarma</button>
 </div>
 
+<!-- HIPO: CUENTA REGRESIVA -->
+<div class="timer-ov hipo" id="ov-htimer" role="dialog" aria-modal="true" aria-labelledby="ht-step" hidden>
+  <div>
+    <div class="t-kick" id="ht-step">Primera ingesta</div>
+    <div class="t-meal">Esperá 15 minutos</div>
+  </div>
+  <div class="ring" role="timer" aria-live="off">
+    <svg viewBox="0 0 280 280" aria-hidden="true"><circle class="trk" cx="140" cy="140" r="120"/><circle class="bar" id="ht-bar" cx="140" cy="140" r="120"/></svg>
+    <div class="mid"><span class="clk" id="ht-clk">15:00</span><span class="sub" id="ht-at">Medir a las --:--</span></div>
+  </div>
+  <p class="t-hint">Dejá la app abierta: suena una alarma al terminar para volver a medir la glicemia.</p>
+  <div class="t-actions">
+    <button class="btn fx" id="ht-min" type="button">Minimizar</button>
+    <button class="btn danger fx" id="ht-cancel" type="button">Cancelar cuenta</button>
+  </div>
+</div>
+
+<!-- HIPO: ALARMA -->
+<div class="eat-ov alarm-ov" id="ov-halarm" role="alertdialog" aria-modal="true" aria-labelledby="ha-big" hidden>
+  <div class="eat-ico"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg></div>
+  <div class="eat-big" id="ha-big">15 MIN</div>
+  <div class="eat-sub" id="ha-sub">Pasaron los 15 minutos. Medí la glicemia.</div>
+  <div class="eat-late" id="ha-late" hidden></div>
+  <button class="btn fx" id="ha-off" type="button">Apagar alarma y seguir</button>
+</div>
+
+<!-- HIPO: YA ESTÁS BIEN -->
+<div class="eat-ov fine-ov" id="ov-fine" role="alertdialog" aria-modal="true" aria-labelledby="fine-big" hidden>
+  <div class="okcirc" style="background:rgba(255,255,255,.2)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="24"/></svg></div>
+  <div class="eat-big" id="fine-big">¡YA ESTÁS BIEN!</div>
+  <div class="eat-sub" id="fine-sub">Glicemia arriba de 80 y subiendo.</div>
+  <div class="eat-late" id="fine-sync" hidden></div>
+  <button class="btn fx" id="fine-ok" type="button">Volver al inicio</button>
+</div>
+
+<!-- HIPO: TODAVÍA NO -->
+<div class="overlay" id="ov-hnot" role="dialog" aria-modal="true" aria-labelledby="hnot-title" hidden>
+  <div class="sheet">
+    <div class="warn-ico" style="background:var(--crit-soft);color:var(--crit)"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg></div>
+    <h3 id="hnot-title">Todavía no está arriba de 80 subiendo</h3>
+    <p class="bigsum" id="hnot-sum"></p>
+    <p>Podés volver a empezar desde la primera ingesta. Ante cualquier duda, consultá con tu equipo de salud.</p>
+    <div class="actions">
+      <button class="btn fx" id="hnot-end" type="button">Terminar</button>
+      <button class="btn primary fx" id="hnot-again" type="button">Volver a la primera ingesta</button>
+    </div>
+  </div>
+</div>
+
+<!-- COLACIÓN: OK -->
+<div class="overlay" id="ov-colok" role="dialog" aria-modal="true" aria-labelledby="colok-title" hidden>
+  <div class="sheet center">
+    <div class="okcirc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="24"/></svg></div>
+    <h3 id="colok-title">¡Colación registrada!</h3>
+    <p class="bigsum" id="colok-sum"></p>
+    <p id="colok-sync" hidden></p>
+    <button class="btn primary block fx" id="colok-home" type="button">Volver al inicio</button>
+  </div>
+</div>
+
+<!-- CONTRASEÑA PARA CAMBIAR DOSIS -->
+<div class="overlay" id="ov-pw" role="dialog" aria-modal="true" aria-labelledby="pw-title" hidden>
+  <div class="sheet" id="pw-sheet">
+    <div class="warn-ico"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg></div>
+    <h3 id="pw-title">Contraseña para cambiar dosis</h3>
+    <p>Solo Juane o Mamá/Papá pueden cambiar las dosis fijas y la corrección.</p>
+    <input class="num-in pw-in" id="pw-in" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Contraseña">
+    <p class="hint bad" id="pw-msg" role="alert"></p>
+    <div class="actions">
+      <button class="btn fx" id="pw-cancel" type="button">Cancelar</button>
+      <button class="btn primary fx" id="pw-ok" type="button">Desbloquear</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRMAR CAMBIO DE DOSIS -->
+<div class="overlay" id="ov-chg" role="dialog" aria-modal="true" aria-labelledby="chg-title" hidden>
+  <div class="sheet">
+    <div class="warn-ico"><svg class="ico" aria-hidden="true"><use href="#i-unlock"/></svg></div>
+    <h3 id="chg-title">¿Confirmás estos cambios?</h3>
+    <ul class="chglist" id="chg-list"></ul>
+    <p id="chg-who"></p>
+    <div class="actions">
+      <button class="btn fx" id="chg-cancel" type="button">Volver</button>
+      <button class="btn primary fx" id="chg-ok" type="button">Confirmar y guardar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
   var $ = function(id){return document.getElementById(id)};
   var root = document.documentElement;
   var body = document.body;
-  var APP_VERSION = '8';
+  var APP_VERSION = '9';
   var APP_DATE = '20261118';
   var KEY = 'mi2sis-ajustes-v3';
   var OLDKEY = 'mi2sis-ajustes-v2';
@@ -828,6 +1067,115 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     extra:   {name:'Fuera de hora', icon:'i-clock', nph:0,  bolo:0, soloCorr:true}
   };
   var ALL = ORDER.concat(['extra']);
+
+  /* ---------- Dosis fijas editables (los valores de arriba son los originales) ---------- */
+  var DOSE_EDIT = {desayuno:['nph','bolo'], almuerzo:['bolo'], merienda:['bolo'], cena:['bolo'], dormir:['nph']};
+  var DOSE_MAX = 50;
+  var DEFAULT_DOSES = {};
+  ORDER.forEach(function(k){ DEFAULT_DOSES[k] = {nph:MEALS[k].nph, bolo:MEALS[k].bolo}; });
+  function cloneDoses(d){ var o = {}; ORDER.forEach(function(k){ o[k] = {nph:d[k].nph, bolo:d[k].bolo}; }); return o; }
+  function validDoseNum(n){ return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= 0 && n <= DOSE_MAX; }
+  function validateDoses(d){
+    if(!d || typeof d !== 'object') return false;
+    for(var i = 0; i < ORDER.length; i++){
+      var k = ORDER[i];
+      if(!d[k] || !validDoseNum(d[k].nph) || !validDoseNum(d[k].bolo)) return false;
+      // Lo que no es editable queda fijo (por ejemplo, Pre dormir nunca tiene bolo)
+      if(DOSE_EDIT[k].indexOf('nph') < 0 && d[k].nph !== DEFAULT_DOSES[k].nph) return false;
+      if(DOSE_EDIT[k].indexOf('bolo') < 0 && d[k].bolo !== DEFAULT_DOSES[k].bolo) return false;
+    }
+    return true;
+  }
+  function applyDoses(){
+    ORDER.forEach(function(k){ MEALS[k].nph = state.doses[k].nph; MEALS[k].bolo = state.doses[k].bolo; });
+  }
+
+  /* ---------- Tendencia de la glicemia ---------- */
+  var TRENDS = [
+    {k:'sube',    t:'Sube rápido', r:-90},
+    {k:'sube45',  t:'Sube',        r:-45},
+    {k:'estable', t:'Estable',     r:0},
+    {k:'baja45',  t:'Baja',        r:45},
+    {k:'baja',    t:'Baja rápido', r:90}
+  ];
+  var TR = {};
+  TRENDS.forEach(function(t){ TR[t.k] = t; });
+  function trendSvg(k, cls){
+    var t = TR[k]; if(!t) return '';
+    return '<svg class="' + (cls === undefined ? 'tri' : cls) + '" viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(' + t.r + ' 12 12)"><path d="M4 12h15M13 6l6 6-6 6"/></g></svg>';
+  }
+  function trendTxt(k){ return TR[k] ? TR[k].t : ''; }
+  function isRising(k){ return k === 'sube' || k === 'sube45'; }
+  function makeTrend(id){
+    var box = document.getElementById(id), val = '';
+    box.className = 'trendwrap';
+    box.innerHTML = '<div class="trend-head"><span class="label">Tendencia</span><span class="tr-lbl">Elegí la flecha</span></div>' +
+      '<div class="trend" role="group" aria-label="Tendencia de la glicemia">' +
+      TRENDS.map(function(t){ return '<button type="button" class="tr-btn" data-tr="' + t.k + '" aria-pressed="false" aria-label="' + t.t + '" title="' + t.t + '">' + trendSvg(t.k, '') + '</button>'; }).join('') +
+      '</div>';
+    var lbl = box.querySelector('.tr-lbl');
+    function paint(){
+      box.querySelectorAll('.tr-btn').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.tr === val ? 'true' : 'false'); });
+      lbl.textContent = val ? trendTxt(val) : 'Elegí la flecha';
+      lbl.classList.toggle('on', !!val);
+    }
+    box.addEventListener('click', function(e){
+      var b = e.target.closest('.tr-btn'); if(!b) return;
+      val = (val === b.dataset.tr) ? '' : b.dataset.tr;
+      paint();
+    });
+    return {get:function(){ return val; }, set:function(v){ val = TR[v] ? v : ''; paint(); }};
+  }
+  function bindGly(el, onCh){
+    el.addEventListener('input', function(){
+      var limpio = el.value.replace(/[^0-9]/g, '').slice(0, 3);
+      if(limpio !== el.value) el.value = limpio;
+      onCh();
+    });
+  }
+  function readGly(el){ return /^[0-9]{1,3}$/.test(el.value) ? parseInt(el.value, 10) : null; }
+
+  /* ---------- Contraseñas para cambiar dosis (se guarda solo su huella SHA-256) ---------- */
+  var PW = {
+    '101578a89f695338cfaa4867636269e12a3680bee7e57bbb4a6844b3717c4700':'Juane',
+    '32816a14ebf0184ca1de082d736bfaf724416f422a3cb6fc21a9ee35e2fe7c27':'Mamá/Papá'
+  };
+  function sha256(txt){
+    var rr = function(v, a){ return (v >>> a) | (v << (32 - a)); };
+    var mp = Math.pow, maxWord = mp(2, 32), result = '', words = [], i, j;
+    var s = unescape(encodeURIComponent(txt));
+    var bitLen = s.length * 8;
+    var hash = [], k = [], pc = 0, isC = {};
+    for(var c = 2; pc < 64; c++){
+      if(!isC[c]){
+        for(i = 0; i < 313; i += c) isC[i] = c;
+        hash[pc] = (mp(c, .5) * maxWord) | 0;
+        k[pc++] = (mp(c, 1 / 3) * maxWord) | 0;
+      }
+    }
+    hash = hash.slice(0, 8);
+    s += '\x80';
+    while(s.length % 64 - 56) s += '\x00';
+    for(i = 0; i < s.length; i++){ j = s.charCodeAt(i); words[i >> 2] |= j << ((3 - i) % 4) * 8; }
+    words[words.length] = ((bitLen / maxWord) | 0);
+    words[words.length] = (bitLen);
+    for(j = 0; j < words.length;){
+      var w = words.slice(j, j += 16), oldHash = hash;
+      hash = hash.slice(0, 8);
+      for(i = 0; i < 64; i++){
+        var w15 = w[i - 15], w2 = w[i - 2], a = hash[0], e = hash[4];
+        var t1 = hash[7] + (rr(e, 6) ^ rr(e, 11) ^ rr(e, 25)) + ((e & hash[5]) ^ ((~e) & hash[6])) + k[i] +
+          (w[i] = (i < 16) ? w[i] : (w[i - 16] + (rr(w15, 7) ^ rr(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rr(w2, 17) ^ rr(w2, 19) ^ (w2 >>> 10))) | 0);
+        var t2 = (rr(a, 2) ^ rr(a, 13) ^ rr(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+        hash = [(t1 + t2) | 0].concat(hash);
+        hash[4] = (hash[4] + t1) | 0;
+      }
+      for(i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+    }
+    for(i = 0; i < 8; i++) for(j = 3; j + 1; j--){ var b = (hash[i] >> (j * 8)) & 255; result += ((b < 16) ? 0 : '') + b.toString(16); }
+    return result;
+  }
+  window.__midosisSha = sha256; // solo para pruebas
   function fmtMin(m){ var h = Math.floor(m / 60), mm = m % 60; return h + ':' + (mm < 10 ? '0' : '') + mm; }
   function pad(n){ return n < 10 ? '0' + n : '' + n; }
   function nowMin(){ var d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
@@ -876,6 +1224,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   };
   var DEFAULTS = {palette:'oceano', font:'manrope', theme:'auto', bg:'malla', img:'', veil:55, icons:true, anim:true, low:70};
   var state = loadState();
+  applyDoses();
 
   function validateBands(arr){
     if(!arr || !arr.length) return {ok:false, msg:'Agregá al menos un rango.'};
@@ -898,12 +1247,14 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     var s = {};
     for(var k in DEFAULTS) s[k] = DEFAULTS[k];
     s.bands = cloneBands(DEFAULT_BANDS);
+    s.doses = cloneDoses(DEFAULT_DOSES);
     try{
       var raw = localStorage.getItem(KEY);
       if(raw){
         var p = JSON.parse(raw);
         for(var k2 in DEFAULTS) if(p && p[k2] !== undefined) s[k2] = p[k2];
         if(p && Array.isArray(p.bands) && validateBands(p.bands).ok) s.bands = cloneBands(p.bands);
+        if(p && validateDoses(p.doses)) s.doses = cloneDoses(p.doses);
       } else {
         // Versión anterior: se conservan colores y fondo, pero los rangos pasan a los nuevos valores base
         var rawOld = localStorage.getItem(OLDKEY);
@@ -988,16 +1339,16 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     var open = p.hidden;
     p.hidden = !open;
     this.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(!open && unlockedBy) lockEditor();
     if(open){ p.classList.remove('rise-in'); void p.offsetWidth; p.classList.add('rise-in'); }
   });
   $('sw-icons').addEventListener('click', function(){ set('icons', !state.icons); });
   $('sw-anim').addEventListener('click', function(){ set('anim', !state.anim); });
   $('veil').addEventListener('input', function(){ set('veil', parseInt(this.value, 10)); });
+  // Restablece solo la apariencia: dosis, corrección y aviso de glicemia baja quedan protegidos con contraseña
   $('btn-reset').addEventListener('click', function(){
-    for(var k in DEFAULTS) state[k] = DEFAULTS[k];
-    state.bands = cloneBands(DEFAULT_BANDS);
-    draft = cloneBands(state.bands);
-    applyAll(); saveState(); renderEditor(); renderCorrTable(); $('band-msg').textContent = ''; $('low-in').value = state.low;
+    for(var k in DEFAULTS) if(k !== 'low') state[k] = DEFAULTS[k];
+    applyAll(); saveState();
   });
   $('btn-upload').addEventListener('click', function(){ $('bgfile').click(); });
   $('btn-rmimg').addEventListener('click', function(){
@@ -1030,11 +1381,16 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     this.value = '';
   });
 
-  /* ---------- Editor de rangos de corrección ---------- */
+  /* ---------- Edición protegida: dosis fijas, rangos de corrección y aviso de glicemia baja ---------- */
   var draft = cloneBands(state.bands);
+  var doseDraft = cloneDoses(state.doses);
+  var lowDraft = state.low;
+  var unlockedBy = null, unlockTO = null;
+  var UNLOCK_MS = 10 * 60 * 1000;
 
   function renderEditor(){
     var box = $('bands');
+    var locked = !unlockedBy;
     box.innerHTML = '';
     draft.forEach(function(b, i){
       var row = document.createElement('div');
@@ -1046,6 +1402,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
         inp.inputMode = 'numeric';
         inp.min = '0';
         inp.step = '1';
+        inp.disabled = locked;
         inp.value = isNaN(b[f[0]]) ? '' : b[f[0]];
         inp.setAttribute('aria-label', f[1] + ' del rango ' + (i + 1));
         inp.addEventListener('input', function(){
@@ -1060,8 +1417,9 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
       del.className = 'band-del fx';
       del.textContent = '×';
       del.setAttribute('aria-label', 'Quitar rango ' + (i + 1));
-      del.disabled = draft.length <= 1;
+      del.disabled = locked || draft.length <= 1;
       del.addEventListener('click', function(){
+        if(!unlockedBy) return;
         draft.splice(i, 1);
         renderEditor();
         commitBands();
@@ -1069,26 +1427,191 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
       row.appendChild(del);
       box.appendChild(row);
     });
+    $('band-add').disabled = locked;
+    $('band-restore').disabled = locked;
+    $('low-in').disabled = locked;
+    $('low-in').value = isFinite(lowDraft) ? lowDraft : '';
   }
 
+  // Solo valida y avisa: lo que se usa para calcular cambia recién al confirmar "Guardar cambios"
   function commitBands(){
     var res = validateBands(draft);
     var msg = $('band-msg');
     if(res.ok){
-      state.bands = cloneBands(draft).sort(function(a, b){ return a.from - b.from; });
-      saveState();
-      renderCorrTable();
-      msg.className = 'hint good';
-      msg.textContent = res.gap
-        ? 'Guardado. Hay huecos entre rangos: esas glicemias mostrarán "consultá a tu médico".'
-        : 'Cambios guardados.';
+      msg.className = 'hint';
+      msg.textContent = res.gap ? 'Hay huecos entre rangos: esas glicemias mostrarán "consultá a tu médico".' : '';
     } else {
       msg.className = 'hint bad';
-      msg.textContent = res.msg + ' Se siguen usando los últimos rangos válidos.';
+      msg.textContent = res.msg;
     }
   }
 
+  function renderDoseEditor(){
+    var box = $('doses');
+    var locked = !unlockedBy;
+    box.innerHTML = '';
+    ORDER.forEach(function(k){
+      var row = document.createElement('div');
+      row.className = 'doserow';
+      var nm = document.createElement('b'); nm.textContent = MEALS[k].name; row.appendChild(nm);
+      ['nph','bolo'].forEach(function(f){
+        if(DOSE_EDIT[k].indexOf(f) < 0){
+          var na = document.createElement('span'); na.className = 'na'; na.textContent = '—'; row.appendChild(na);
+          return;
+        }
+        var inp = document.createElement('input');
+        inp.className = 'num-in';
+        inp.type = 'number';
+        inp.inputMode = 'numeric';
+        inp.min = '0'; inp.max = String(DOSE_MAX); inp.step = '1';
+        inp.disabled = locked;
+        inp.dataset.dose = k + '.' + f;
+        inp.value = isNaN(doseDraft[k][f]) ? '' : doseDraft[k][f];
+        inp.setAttribute('aria-label', (f === 'nph' ? 'NPH' : 'RAPI bolo') + ' de ' + MEALS[k].name);
+        inp.addEventListener('input', function(){
+          doseDraft[k][f] = inp.value === '' ? NaN : Number(inp.value);
+          var m = $('dose-msg');
+          if(!validDoseNum(doseDraft[k][f])){ m.className = 'hint bad'; m.textContent = 'Las dosis tienen que ser números enteros de 0 a ' + DOSE_MAX + ' U.'; }
+          else { m.className = 'hint'; m.textContent = ''; }
+        });
+        row.appendChild(inp);
+      });
+      box.appendChild(row);
+    });
+  }
+
+  function renderLock(){
+    var open = !!unlockedBy;
+    $('lockbar').classList.toggle('open', open);
+    $('lock-ico').setAttribute('href', open ? '#i-unlock' : '#i-lock');
+    $('lock-txt').textContent = open ? 'Desbloqueado por ' + unlockedBy : 'Bloqueado';
+    $('btn-lock').textContent = open ? 'Bloquear' : 'Desbloquear';
+    $('lock-note').hidden = open;
+    $('edit-actions').hidden = !open;
+    renderDoseEditor();
+    renderEditor();
+  }
+
+  function resetDrafts(){
+    draft = cloneBands(state.bands);
+    doseDraft = cloneDoses(state.doses);
+    lowDraft = state.low;
+  }
+  function lockEditor(){
+    if(unlockTO){ clearTimeout(unlockTO); unlockTO = null; }
+    unlockedBy = null;
+    resetDrafts();
+    $('band-msg').textContent = '';
+    renderLock();
+  }
+
+  function bandLabel(b){
+    if(b.from === 0) return 'Menos de ' + (b.to + 1);
+    if(b.to >= 999) return 'Más de ' + (b.from - 1);
+    if(b.from === b.to) return String(b.from);
+    return b.from + ' a ' + b.to;
+  }
+  function sortedDraft(){ return cloneBands(draft).sort(function(a, b){ return a.from - b.from; }); }
+  function changeList(){
+    var out = [];
+    ORDER.forEach(function(k){
+      DOSE_EDIT[k].forEach(function(f){
+        var a = state.doses[k][f], b = doseDraft[k][f];
+        if(a !== b) out.push(MEALS[k].name + ' · ' + (f === 'nph' ? 'NPH' : 'RAPI bolo') + ': ' + a + ' → ' + b + ' U');
+      });
+    });
+    var sb = sortedDraft();
+    if(JSON.stringify(sb) !== JSON.stringify(state.bands)) out.push('Corrección RAPI: ' + sb.map(function(b){ return bandLabel(b) + ' = ' + b.units + ' U'; }).join('; '));
+    if(lowDraft !== state.low) out.push('Aviso de glicemia baja: menos de ' + state.low + ' → menos de ' + lowDraft + ' mg/dL');
+    return out;
+  }
+
+  $('btn-lock').addEventListener('click', function(){
+    if(unlockedBy){
+      var sucio = changeList().length > 0;
+      lockEditor();
+      if(sucio){ $('dose-msg').className = 'hint'; $('dose-msg').textContent = 'Bloqueado. Los cambios sin guardar se descartaron.'; }
+      return;
+    }
+    $('pw-in').value = ''; $('pw-msg').textContent = '';
+    showOv($('ov-pw'), $('pw-in'));
+  });
+  function tryUnlock(){
+    var who = PW[sha256($('pw-in').value.trim())];
+    if(!who){
+      $('pw-msg').textContent = 'Contraseña incorrecta.';
+      var sh = $('pw-sheet'); sh.classList.remove('shake'); void sh.offsetWidth; sh.classList.add('shake');
+      $('pw-in').select();
+      return;
+    }
+    $('pw-in').value = '';
+    hideOv($('ov-pw'));
+    unlockedBy = who;
+    resetDrafts();
+    $('dose-msg').className = 'hint'; $('dose-msg').textContent = '';
+    renderLock();
+    if(unlockTO) clearTimeout(unlockTO);
+    unlockTO = setTimeout(function(){
+      var sucio = changeList().length > 0;
+      lockEditor();
+      $('dose-msg').className = 'hint';
+      $('dose-msg').textContent = 'Se bloqueó solo después de 10 minutos' + (sucio ? '; los cambios sin guardar se descartaron.' : '.');
+    }, UNLOCK_MS);
+  }
+  $('pw-ok').addEventListener('click', tryUnlock);
+  $('pw-in').addEventListener('keydown', function(e){ if(e.key === 'Enter') tryUnlock(); });
+  $('pw-cancel').addEventListener('click', function(){ $('pw-in').value = ''; hideOv($('ov-pw')); });
+
+  $('dose-discard').addEventListener('click', function(){
+    lockEditor();
+    $('dose-msg').className = 'hint'; $('dose-msg').textContent = 'Cambios descartados.';
+  });
+  $('dose-restore').addEventListener('click', function(){
+    if(!unlockedBy) return;
+    doseDraft = cloneDoses(DEFAULT_DOSES);
+    draft = cloneBands(DEFAULT_BANDS);
+    lowDraft = DEFAULTS.low;
+    renderDoseEditor(); renderEditor(); commitBands();
+    $('dose-msg').className = 'hint'; $('dose-msg').textContent = 'Se cargaron los valores originales. Tocá "Guardar cambios" para aplicarlos.';
+  });
+  $('dose-save').addEventListener('click', function(){
+    if(!unlockedBy) return;
+    var m = $('dose-msg');
+    if(!validateDoses(doseDraft)){ m.className = 'hint bad'; m.textContent = 'Revisá las dosis: tienen que ser números enteros de 0 a ' + DOSE_MAX + ' U.'; return; }
+    var vb = validateBands(draft);
+    if(!vb.ok){ m.className = 'hint bad'; m.textContent = 'Revisá la corrección: ' + vb.msg; return; }
+    if(!(typeof lowDraft === 'number' && isFinite(lowDraft) && Math.floor(lowDraft) === lowDraft && lowDraft >= 0 && lowDraft <= 400)){ m.className = 'hint bad'; m.textContent = 'El aviso de glicemia baja tiene que ser un número entero de 0 a 400.'; return; }
+    var list = changeList();
+    if(!list.length){ m.className = 'hint'; m.textContent = 'No hay cambios para guardar.'; return; }
+    var ul = $('chg-list'); ul.innerHTML = '';
+    list.forEach(function(t){ var li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+    $('chg-who').textContent = 'Los cambia: ' + unlockedBy + '. Queda anotado en el registro.';
+    showOv($('ov-chg'), $('chg-cancel'));
+  });
+  $('chg-cancel').addEventListener('click', function(){ hideOv($('ov-chg')); });
+  $('chg-ok').addEventListener('click', function(){
+    if(!unlockedBy){ hideOv($('ov-chg')); return; }
+    var list = changeList();
+    var who = unlockedBy;
+    state.doses = cloneDoses(doseDraft);
+    state.bands = sortedDraft();
+    state.low = lowDraft;
+    saveState();
+    applyDoses();
+    renderCorrTable();
+    renderDoseTable();
+    hideOv($('ov-chg'));
+    if(list.length){
+      newRec({tipo:'ajuste', momento:'Cambio de dosis', glicemia:null, detalle:list.join(' · ').slice(0, 600), usuario:who});
+      flush(); renderHist();
+    }
+    lockEditor();
+    $('dose-msg').className = 'hint good';
+    $('dose-msg').textContent = 'Guardado ✓ Cambió ' + who + '. Desde ahora MIDOSIS calcula con estos valores.';
+  });
+
   $('band-add').addEventListener('click', function(){
+    if(!unlockedBy) return;
     var valid = draft.filter(function(b){ return isFinite(b.to); });
     var last = valid.length ? Math.max.apply(null, valid.map(function(b){ return b.to; })) : -1;
     draft.push({from:last + 1, to:last + 50, units:0});
@@ -1096,24 +1619,35 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     commitBands();
   });
   $('band-restore').addEventListener('click', function(){
+    if(!unlockedBy) return;
     draft = cloneBands(DEFAULT_BANDS);
     renderEditor();
     commitBands();
   });
   $('low-in').addEventListener('input', function(){
-    var v = parseInt(this.value, 10);
-    if(isFinite(v) && v >= 0){ state.low = v; saveState(); }
+    var v = this.value === '' ? NaN : Number(this.value);
+    lowDraft = v;
   });
+
+  function renderDoseTable(){
+    var tb = $('tbl-doses');
+    tb.innerHTML = '';
+    ORDER.forEach(function(k){
+      var d = MEALS[k];
+      var tr = document.createElement('tr');
+      var a = document.createElement('td'); a.textContent = d.name;
+      var b = document.createElement('td'); b.className = 'n'; b.textContent = DOSE_EDIT[k].indexOf('nph') >= 0 ? d.nph + ' U' : '—';
+      var c = document.createElement('td'); c.className = 'n'; c.textContent = DOSE_EDIT[k].indexOf('bolo') >= 0 ? d.bolo + ' U' : '—';
+      tr.appendChild(a); tr.appendChild(b); tr.appendChild(c);
+      tb.appendChild(tr);
+    });
+  }
 
   function renderCorrTable(){
     var tb = $('tbl-corr');
     tb.innerHTML = '';
     state.bands.forEach(function(b){
-      var label;
-      if(b.from === 0) label = 'Menos de ' + (b.to + 1);
-      else if(b.to >= 999) label = 'Más de ' + (b.from - 1);
-      else if(b.from === b.to) label = String(b.from);
-      else label = b.from + ' a ' + b.to;
+      var label = bandLabel(b);
       var tr = document.createElement('tr');
       var td1 = document.createElement('td'); td1.textContent = label;
       var td2 = document.createElement('td'); td2.className = 'n'; td2.textContent = b.units + ' U';
@@ -1176,15 +1710,21 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     body.classList.add('modal-open');
     if(focusEl) setTimeout(function(){ focusEl.focus(); }, 40);
   }
+  var OVS = ['ov-warn','ov-result','ov-timer','ov-eat','ov-htimer','ov-halarm','ov-fine','ov-hnot','ov-colok','ov-pw','ov-chg'];
+  function syncModal(){
+    var any = OVS.some(function(id){ var el = $(id); return el && !el.hidden; });
+    body.classList.toggle('modal-open', any);
+  }
   function hideOv(el){
     el.hidden = true;
     openOv = null;
-    body.classList.remove('modal-open');
+    syncModal();
     if(lastFocus && lastFocus.focus){ try{ lastFocus.focus(); }catch(e){} }
   }
   document.addEventListener('keydown', function(e){
     if(e.key !== 'Escape') return;
     if(openOv === $('ov-warn')) hideOv($('ov-warn'));
+    else if(openOv === $('ov-pw') || openOv === $('ov-chg')) hideOv(openOv);
     else if(openOv === $('ov-result') && !$('btn-confirm').classList.contains('go')) hideOv($('ov-result'));
   });
 
@@ -1236,13 +1776,14 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     if(d.soloCorr) bs.insertAdjacentHTML('beforeend', '<div class="basic">' + penSvg('rapi') + '<span class="sm" style="font-size:18px;color:var(--ink)">Solo corrección de RAPI según la glicemia, sin bolo de comida</span></div>');
     $('mv-off').hidden = !off;
     $('glicemia').value = '';
+    mTrend.set('');
     $('btn-ok').disabled = true;
     swapView('view-meal');
     setTimeout(function(){ $('glicemia').focus({preventScroll:true}); }, 600);
   }
 
   function swapView(id){
-    ['view-home','view-meal'].forEach(function(v){ $(v).hidden = (v !== id); });
+    ['view-home','view-meal','view-hipo','view-col'].forEach(function(v){ $(v).hidden = (v !== id); });
     var el = $(id);
     el.classList.remove('view-in'); void el.offsetWidth; el.classList.add('view-in');
     window.scrollTo(0, 0);
@@ -1251,6 +1792,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   $('btn-back').addEventListener('click', function(){ swapView('view-home'); });
 
   var input = $('glicemia');
+  var mTrend = makeTrend('m-trend');
   function readG(){
     if(!/^[0-9]{1,3}$/.test(input.value)) return null;
     return parseInt(input.value, 10);
@@ -1279,10 +1821,11 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     var c = correction(g);
     var corr = d.soloBase ? 0 : (c.units || 0);
     var rapi = d.soloBase ? 0 : d.bolo + corr;
-    result = {meal:current, g:g, nph:d.nph, rapi:rapi, bolo:(d.soloBase ? 0 : d.bolo), corr:corr};
+    var tr = mTrend.get();
+    result = {meal:current, g:g, tr:tr, nph:d.nph, rapi:rapi, bolo:(d.soloBase ? 0 : d.bolo), corr:corr};
 
     $('res-meal').textContent = d.name;
-    $('res-gl').textContent = g + ' mg/dL';
+    $('res-gl').innerHTML = g + ' mg/dL' + trendSvg(tr);
     fillDose('nph', d.nph, d.nph ? 'Insulina de base' : 'No corresponde');
     var rdet;
     if(d.soloBase) rdet = 'No corresponde';
@@ -1293,7 +1836,15 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     var al = $('res-alerts');
     al.innerHTML = '';
     function addAlert(cls, txt){ var a = document.createElement('div'); if(cls) a.className = cls; a.textContent = txt; al.appendChild(a); }
-    if(g < state.low) addAlert('crit', 'Glicemia baja (menos de ' + state.low + ' mg/dL). Tratá la hipoglucemia primero y consultá a tu médico antes de inyectarte.');
+    if(g < state.low){
+      addAlert('crit', 'Glicemia baja (menos de ' + state.low + ' mg/dL). Tratá la hipoglucemia primero y consultá a tu médico antes de inyectarte.');
+      var hb = document.createElement('button');
+      hb.type = 'button'; hb.className = 'btn primary block fx'; hb.id = 'res-gohipo';
+      hb.style.cssText = 'margin-top:10px;background:#d92d20;box-shadow:none';
+      hb.textContent = 'Ir a Hipoglicemia';
+      hb.addEventListener('click', function(){ hideOv($('ov-result')); openHipo({g:g, tr:tr}); });
+      al.lastChild.appendChild(hb);
+    }
     if(c.units === null && !d.soloBase) addAlert('', d.soloCorr
       ? 'Esta glicemia está fuera de los rangos de corrección. Consultá a tu médico.'
       : 'Esta glicemia está fuera de los rangos de corrección: la RAPI mostrada es solo el bolo fijo. Consultá a tu médico.');
@@ -1338,15 +1889,9 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     log.items[result.meal] = {t:horaReg, nph:result.nph, rapi:result.rapi, off:offHours};
     saveLog();
     var rec = addRecord(result, horaReg);
-    var ds = $('done-sync');
-    ds.hidden = rec.sync !== 'pend'; ds.className = 'pend'; ds.textContent = 'Guardando en la planilla…';
-    flush().then(function(){
-      if(rec.sync === 'ok'){ ds.className = 'ok'; ds.textContent = 'Guardado en la planilla y avisado a la familia ✓'; }
-      else if(rec.sync === 'pend'){ ds.className = lastErr === 'clave' ? 'err' : 'pend'; ds.textContent = lastErr === 'clave' ? 'No se guardó en la planilla: la clave no es correcta.' : 'Sin conexión: se guarda en la planilla cuando haya internet.'; }
-      else if(rec.sync === 'rech'){ ds.className = 'err'; ds.textContent = 'La planilla rechazó el dato (' + rec.err + ').'; }
-    });
+    syncStatus(rec, $('done-sync'), true);
     renderHist();
-    var conCuenta = needsTimer(result.meal);
+    var conCuenta = needsTimer(result);
     if(conCuenta){ unlockAudio(); askNotif(); startTimer(result.meal); }
     $('btn-home').textContent = conCuenta ? 'Ver cuenta regresiva' : 'Volver al inicio';
     setTimeout(function(){
@@ -1386,7 +1931,8 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   var RING = 754;
   var timer = null, tick = null, audioCtx = null, alarmInt = null, alarmStop = null, wakeLock = null, cancelArm = null;
 
-  function needsTimer(meal){ var d = MEALS[meal]; return !!(d && d.bolo > 0 && !d.soloBase && !d.soloCorr); }
+  // Cuenta para comer: solo en Desayuno, Almuerzo, Merienda y Cena, cuando hay RAPI para inyectar
+  function needsTimer(res){ var d = MEALS[res.meal]; return !!(d && !d.soloBase && !d.soloCorr && res.rapi > 0); }
   function loadTimer(){
     try{ var p = JSON.parse(localStorage.getItem(TIMER_KEY) || 'null'); if(p && typeof p.end === 'number' && MEALS[p.meal]) return p; }catch(e){}
     return null;
@@ -1422,9 +1968,9 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     }catch(e){}
   }
   function vib(){ try{ if(navigator.vibrate) navigator.vibrate([500, 200, 500, 200, 900]); }catch(e){} }
-  function startAlarm(){
+  function startAlarm(ovId){
     stopAlarm();
-    $('ov-eat').dataset.sonando = '1';
+    $(ovId || 'ov-eat').dataset.sonando = '1';
     beep(); vib();
     alarmInt = setInterval(function(){ beep(); vib(); }, 1500);
     alarmStop = setTimeout(stopAlarm, 3 * 60 * 1000); // suena hasta 3 minutos si nadie la apaga
@@ -1433,6 +1979,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     if(alarmInt){ clearInterval(alarmInt); alarmInt = null; }
     if(alarmStop){ clearTimeout(alarmStop); alarmStop = null; }
     $('ov-eat').dataset.sonando = '0';
+    $('ov-halarm').dataset.sonando = '0';
     try{ if(navigator.vibrate) navigator.vibrate(0); }catch(e){}
   }
 
@@ -1447,6 +1994,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     }catch(e){}
   }
   function releaseWake(){ try{ if(wakeLock) wakeLock.release(); }catch(e){} wakeLock = null; }
+  function maybeRelease(){ if(!timer && !(hipo && hipo.end)) releaseWake(); }
   function askNotif(){
     try{ if('Notification' in window && Notification.permission === 'default') Notification.requestPermission().catch(function(){}); }catch(e){}
   }
@@ -1492,14 +2040,14 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   }
   function hideTimerOv(){
     $('ov-timer').hidden = true;
-    if($('ov-result').hidden && $('ov-warn').hidden) body.classList.remove('modal-open');
+    syncModal();
     updTimer();
   }
   function finishTimer(){
     if(tick){ clearInterval(tick); tick = null; }
     var t = timer;
     timer = null; saveTimer();
-    releaseWake();
+    maybeRelease();
     $('ov-timer').hidden = true;
     $('timer-pill').hidden = true;
     if(!t) return;
@@ -1516,7 +2064,7 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   function cancelTimer(){
     if(tick){ clearInterval(tick); tick = null; }
     timer = null; saveTimer();
-    releaseWake();
+    maybeRelease();
     hideTimerOv();
   }
 
@@ -1534,17 +2082,230 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   $('eat-off').addEventListener('click', function(){
     stopAlarm();
     $('ov-eat').hidden = true;
-    if($('ov-result').hidden && $('ov-warn').hidden && $('ov-timer').hidden) body.classList.remove('modal-open');
+    syncModal();
+    if(!$('ov-halarm').hidden) startAlarm('ov-halarm'); // la alarma de hipoglicemia sigue sonando
     if(!$('view-home').hidden) updateHome();
   });
   // El sonido necesita un toque previo: cualquier toque mientras corre la cuenta lo habilita
-  document.addEventListener('pointerdown', function(){ if(timer && !audioCtx) unlockAudio(); }, true);
+  document.addEventListener('pointerdown', function(){ if((timer || (hipo && hipo.end)) && !audioCtx) unlockAudio(); }, true);
   document.addEventListener('visibilitychange', function(){
     if(document.visibilityState !== 'visible') return;
     if(timer){ requestWake(); updTimer(); }
+    if(hipo && hipo.end){ requestWake(); updHipo(); }
   });
 
 
+
+  /* ---------- Hipoglicemia: primera ingesta → 15 min → segunda ingesta → 15 min → control ---------- */
+  var HIPO_KEY = 'midosis-hipo-v1';
+  var HIPO_MS = 15 * 60 * 1000;
+  var HIPO_OK_MIN = 80; // "ya estás bien": glicemia arriba de 80 con tendencia a subir
+  var HIPO_STEP = {
+    1:{kick:'Primera ingesta', instr:'Tomar un juguito o una cucharada grande de azúcar en un vaso de agua y esperar 15 minutos.', lbl:'Glicemia actual', ok:'OK · empezar 15 minutos'},
+    2:{kick:'Segunda ingesta', instr:'Come un pan con manteca o mermelada, una fruta o 4 galletitas y espera 15 minutos.', lbl:'Glicemia ahora (a los 15 minutos)', ok:'OK'},
+    3:{kick:'Control', instr:'Pasaron los 15 minutos de la segunda ingesta. Medí la glicemia.', lbl:'Glicemia ahora', ok:'OK'}
+  };
+  var hipo = (function(){
+    try{ var p = JSON.parse(localStorage.getItem(HIPO_KEY) || 'null'); if(p && (p.step === 2 || p.step === 3) && (p.end === null || typeof p.end === 'number')) return p; }catch(e){}
+    return null;
+  })();
+  var hTick = null, hCancelArm = null, hEndArm = null;
+  var hTrend = makeTrend('h-trend');
+  var hInput = $('h-gl');
+  function saveHipo(){ try{ if(hipo) localStorage.setItem(HIPO_KEY, JSON.stringify(hipo)); else localStorage.removeItem(HIPO_KEY); }catch(e){} }
+  function hipoStep(){ return hipo ? hipo.step : 1; }
+
+  function openHipo(pre){
+    if(sync.rol === 'familia') return;
+    if(hipo && hipo.end){ showHTimer(); return; }
+    var st = hipoStep(), d = HIPO_STEP[st];
+    $('h-step').textContent = d.kick;
+    $('h-instr').textContent = d.instr;
+    $('h-gl-lbl').textContent = d.lbl;
+    $('h-ok').textContent = d.ok;
+    hInput.value = (st === 1 && pre && typeof pre.g === 'number') ? String(pre.g) : '';
+    hTrend.set(st === 1 && pre ? pre.tr : '');
+    $('h-ok').disabled = readGly(hInput) === null;
+    var he = $('h-end'); he.hidden = st === 1; he.classList.remove('arm'); he.textContent = 'Terminar hipoglicemia';
+    swapView('view-hipo');
+    setTimeout(function(){ try{ hInput.focus({preventScroll:true}); }catch(e){} }, 600);
+  }
+  bindGly(hInput, function(){ $('h-ok').disabled = readGly(hInput) === null; });
+  hInput.addEventListener('keydown', function(e){ if(e.key === 'Enter' && readGly(hInput) !== null) $('h-ok').click(); });
+
+  function hipoRec(g, tr, detalle){
+    return newRec({tipo:'hipo', momento:'Hipoglicemia', glicemia:g, tendencia:tr, detalle:detalle});
+  }
+  $('h-ok').addEventListener('click', function(){
+    var g = readGly(hInput); if(g === null) return;
+    var tr = hTrend.get();
+    var st = hipoStep();
+    unlockAudio(); askNotif();
+    var rec;
+    if(st === 1){
+      rec = hipoRec(g, tr, 'Primera ingesta');
+      hipo = {step:2, end:Date.now() + HIPO_MS};
+      saveHipo(); flush(); renderHist();
+      swapView('view-home');
+      runHTick(); requestWake(); showHTimer();
+      return;
+    }
+    var fine = g > HIPO_OK_MIN && isRising(tr);
+    if(fine){
+      rec = hipoRec(g, tr, 'Ya está bien');
+      hipo = null; saveHipo(); updHipo(); renderHist();
+      $('fine-sub').innerHTML = '';
+      $('fine-sub').appendChild(document.createTextNode('Glicemia ' + g + ' mg/dL'));
+      $('fine-sub').insertAdjacentHTML('beforeend', trendSvg(tr));
+      $('fine-sub').appendChild(document.createTextNode(' · arriba de ' + HIPO_OK_MIN + ' y subiendo.'));
+      swapView('view-home');
+      $('ov-fine').hidden = false; syncModal();
+      syncStatus(rec, $('fine-sync'), false);
+      setTimeout(function(){ try{ $('fine-ok').focus(); }catch(e){} }, 60);
+      return;
+    }
+    if(st === 2){
+      rec = hipoRec(g, tr, 'Segunda ingesta');
+      hipo = {step:3, end:Date.now() + HIPO_MS};
+      saveHipo(); flush(); renderHist();
+      swapView('view-home');
+      runHTick(); requestWake(); showHTimer();
+      return;
+    }
+    rec = hipoRec(g, tr, 'Control: todavía no está bien');
+    hipo = null; saveHipo(); updHipo(); flush(); renderHist();
+    var sum = $('hnot-sum'); sum.innerHTML = '';
+    sum.appendChild(document.createTextNode('Glicemia ' + g + ' mg/dL'));
+    sum.insertAdjacentHTML('beforeend', trendSvg(tr));
+    if(tr) sum.appendChild(document.createTextNode(' ' + trendTxt(tr).toLowerCase()));
+    swapView('view-home');
+    showOv($('ov-hnot'), $('hnot-again'));
+  });
+  $('h-back').addEventListener('click', function(){ swapView('view-home'); });
+  $('h-end').addEventListener('click', function(){
+    var b = this;
+    if(b.classList.contains('arm')){ clearTimeout(hEndArm); endHipo(); swapView('view-home'); return; }
+    b.classList.add('arm'); b.textContent = 'Tocá de nuevo para terminar';
+    hEndArm = setTimeout(function(){ b.classList.remove('arm'); b.textContent = 'Terminar hipoglicemia'; }, 3500);
+  });
+  $('hnot-again').addEventListener('click', function(){ hideOv($('ov-hnot')); openHipo(); });
+  $('hnot-end').addEventListener('click', function(){ hideOv($('ov-hnot')); updateHome(); });
+  $('fine-ok').addEventListener('click', function(){ $('ov-fine').hidden = true; syncModal(); swapView('view-home'); });
+
+  function endHipo(){
+    if(hTick){ clearInterval(hTick); hTick = null; }
+    hipo = null; saveHipo();
+    $('ov-htimer').hidden = true;
+    syncModal(); maybeRelease(); updHipo();
+  }
+  function runHTick(){
+    if(hTick) clearInterval(hTick);
+    hTick = setInterval(updHipo, 250);
+    updHipo();
+  }
+  function updHipo(){
+    var pill = $('hipo-pill');
+    var sub = $('row-hipo-sub');
+    if(!hipo || sync.rol === 'familia'){ pill.hidden = true; if(sub) sub.textContent = 'Primera y segunda ingesta'; return; }
+    var st = HIPO_STEP[hipo.step];
+    if(hipo.end){
+      var left = hipo.end - Date.now();
+      if(left <= 0){ finishHipoTimer(); return; }
+      var sgs = Math.ceil(left / 1000);
+      var txt = pad(Math.floor(sgs / 60)) + ':' + pad(sgs % 60);
+      $('ht-clk').textContent = txt;
+      $('ht-bar').style.strokeDashoffset = String(RING * (1 - left / HIPO_MS));
+      $('ht-step').textContent = HIPO_STEP[hipo.step - 1].kick;
+      $('ht-at').textContent = 'Medir a las ' + hhmm(hipo.end);
+      $('hp-lbl').textContent = 'Hipoglicemia · medir en';
+      $('hp-txt').textContent = txt;
+      sub.textContent = 'En curso · medir en ' + txt;
+    } else {
+      $('hp-lbl').textContent = 'Hipoglicemia · ' + st.kick;
+      $('hp-txt').textContent = 'Medir ›';
+      sub.textContent = 'En curso · ' + st.kick + ': medí la glicemia';
+    }
+    pill.hidden = !$('ov-htimer').hidden;
+  }
+  function showHTimer(){
+    if(!hipo || !hipo.end) return;
+    $('ov-htimer').hidden = false; syncModal();
+    var cb = $('ht-cancel'); cb.classList.remove('arm'); cb.textContent = 'Terminar hipoglicemia';
+    updHipo();
+  }
+  function finishHipoTimer(){
+    if(hTick){ clearInterval(hTick); hTick = null; }
+    if(!hipo || !hipo.end) return;
+    var end = hipo.end;
+    hipo.end = null; saveHipo();
+    maybeRelease();
+    $('ov-htimer').hidden = true;
+    var prev = HIPO_STEP[hipo.step - 1].kick.toLowerCase();
+    $('ha-sub').textContent = 'Pasaron los 15 minutos de la ' + prev + '. Medí la glicemia.';
+    var late = Date.now() - end;
+    $('ha-late').hidden = late < 60000;
+    $('ha-late').textContent = 'Se cumplió a las ' + hhmm(end) + '.';
+    $('ov-halarm').hidden = false; syncModal();
+    startAlarm('ov-halarm');
+    if(document.hidden) notifyHipo();
+    updHipo();
+    setTimeout(function(){ try{ $('ha-off').focus(); }catch(e){} }, 60);
+  }
+  function notifyHipo(){
+    try{
+      if(!('Notification' in window) || Notification.permission !== 'granted') return;
+      var opts = {body:'Pasaron los 15 minutos: medí la glicemia.', icon:'icons/icon-192.png', tag:'midosis-hipo', renotify:true, requireInteraction:true, vibrate:[500, 200, 500, 200, 900]};
+      if(navigator.serviceWorker && navigator.serviceWorker.getRegistration){
+        navigator.serviceWorker.getRegistration().then(function(r){ if(r) r.showNotification('HIPOGLICEMIA', opts); else new Notification('HIPOGLICEMIA', opts); }).catch(function(){});
+      } else { new Notification('HIPOGLICEMIA', opts); }
+    }catch(e){}
+  }
+  $('ha-off').addEventListener('click', function(){
+    stopAlarm();
+    $('ov-halarm').hidden = true; syncModal();
+    if(!$('ov-eat').hidden) startAlarm('ov-eat'); // si también terminó la cuenta para comer, esa sigue sonando
+    openHipo();
+  });
+  $('ht-min').addEventListener('click', function(){ $('ov-htimer').hidden = true; syncModal(); updHipo(); });
+  $('hipo-pill').addEventListener('click', function(){ unlockAudio(); openHipo(); });
+  $('ht-cancel').addEventListener('click', function(){
+    var b = this;
+    if(b.classList.contains('arm')){ clearTimeout(hCancelArm); b.classList.remove('arm'); endHipo(); updateHome(); return; }
+    b.classList.add('arm'); b.textContent = 'Tocá de nuevo para terminar';
+    hCancelArm = setTimeout(function(){ b.classList.remove('arm'); b.textContent = 'Terminar hipoglicemia'; }, 3500);
+  });
+  $('row-hipo').addEventListener('click', function(){ unlockAudio(); openHipo(); });
+
+  /* ---------- Colación ---------- */
+  var cTrend = makeTrend('c-trend');
+  var cInput = $('c-gl');
+  function colReady(){ return $('c-desc').value.trim().length > 0 && readGly(cInput) !== null; }
+  function openCol(){
+    if(sync.rol === 'familia') return;
+    $('c-desc').value = ''; cInput.value = ''; cTrend.set('');
+    $('c-ok').disabled = true;
+    swapView('view-col');
+    setTimeout(function(){ try{ $('c-desc').focus({preventScroll:true}); }catch(e){} }, 600);
+  }
+  bindGly(cInput, function(){ $('c-ok').disabled = !colReady(); });
+  $('c-desc').addEventListener('input', function(){ $('c-ok').disabled = !colReady(); });
+  $('c-back').addEventListener('click', function(){ swapView('view-home'); });
+  $('row-col').addEventListener('click', openCol);
+  $('c-ok').addEventListener('click', function(){
+    if(!colReady()) return;
+    var desc = $('c-desc').value.replace(/\s+/g, ' ').trim().slice(0, 200);
+    var g = readGly(cInput), tr = cTrend.get();
+    var rec = newRec({tipo:'colacion', momento:'Colación', glicemia:g, tendencia:tr, detalle:desc});
+    renderHist();
+    var sum = $('colok-sum'); sum.innerHTML = '';
+    sum.appendChild(document.createTextNode(rec.hora + ' · ' + desc));
+    sum.appendChild(document.createElement('br'));
+    sum.appendChild(document.createTextNode('Glicemia ' + g + ' mg/dL'));
+    sum.insertAdjacentHTML('beforeend', trendSvg(tr));
+    showOv($('ov-colok'), $('colok-home'));
+    syncStatus(rec, $('colok-sync'), true);
+  });
+  $('colok-home').addEventListener('click', function(){ hideOv($('ov-colok')); swapView('view-home'); });
 
   /* ---------- App instalable ---------- */
   (function(){
@@ -1608,22 +2369,41 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   function syncReady(){ return /^(https:\/\/\S+|http:\/\/localhost[:\/]\S*)$/.test(sync.url) && sync.clave.length > 0; }
   function pendCount(){ return hist.filter(function(r){ return r.sync === 'pend'; }).length; }
 
-  function addRecord(res, hora){
-    var d = MEALS[res.meal];
+  // Tipos de registro: dosis, hipo (hipoglicemia), colacion, ajuste (cambio de dosis)
+  function newRec(f){
     var rec = {
       id: 'md-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8),
-      fecha: todayKey(), hora: hora, momento: d.name, meal: res.meal,
-      glicemia: res.g, nph: res.nph, bolo: res.bolo, correccion: res.corr, rapi: res.rapi,
-      fueraHorario: !!offHours,
+      fecha: todayKey(), hora: f.hora || nowStr(), tipo: f.tipo || 'dosis', momento: f.momento, meal: f.meal || '',
+      glicemia: (typeof f.glicemia === 'number') ? f.glicemia : null, tendencia: TR[f.tendencia] ? f.tendencia : '',
+      nph: f.nph || 0, bolo: f.bolo || 0, correccion: f.correccion || 0, rapi: f.rapi || 0,
+      fueraHorario: !!f.fueraHorario, detalle: f.detalle || '', usuario: f.usuario || '',
       sync: (sync.rol === 'principal' && syncReady()) ? 'pend' : 'local'
     };
     hist.push(rec);
     saveHist();
     return rec;
   }
+  function addRecord(res, hora){
+    return newRec({tipo:'dosis', hora:hora, momento:MEALS[res.meal].name, meal:res.meal, glicemia:res.g, tendencia:res.tr,
+                   nph:res.nph, bolo:res.bolo, correccion:res.corr, rapi:res.rapi, fueraHorario:offHours});
+  }
   function payload(r){
-    return {id:r.id, fecha:r.fecha, hora:r.hora, momento:r.momento, glicemia:r.glicemia, nph:r.nph,
-            bolo:r.bolo, correccion:r.correccion, rapi:r.rapi, fueraHorario:r.fueraHorario};
+    return {id:r.id, fecha:r.fecha, hora:r.hora, tipo:r.tipo || 'dosis', momento:r.momento,
+            glicemia:(typeof r.glicemia === 'number' ? r.glicemia : null), tendencia:r.tendencia || '', nph:r.nph,
+            bolo:r.bolo, correccion:r.correccion, rapi:r.rapi, fueraHorario:!!r.fueraHorario,
+            detalle:r.detalle || '', usuario:r.usuario || ''};
+  }
+  // Muestra cómo quedó el envío a la planilla en un texto (después de confirmar algo)
+  function syncStatus(rec, el, colores){
+    function put(cls, txt){ el.hidden = false; if(colores) el.className = cls; el.textContent = txt; }
+    el.hidden = rec.sync !== 'pend';
+    if(colores) el.className = 'pend';
+    el.textContent = 'Guardando en la planilla…';
+    return flush().then(function(){
+      if(rec.sync === 'ok') put('ok', 'Guardado en la planilla y avisado a la familia ✓');
+      else if(rec.sync === 'pend') put(lastErr === 'clave' ? 'err' : 'pend', lastErr === 'clave' ? 'No se guardó en la planilla: la clave no es correcta.' : 'Sin conexión: se guarda en la planilla cuando haya internet.');
+      else if(rec.sync === 'rech') put('err', 'La planilla rechazó el dato (' + rec.err + ').');
+    });
   }
   function withTimeout(p, ms){
     return new Promise(function(ok, ko){
@@ -1703,26 +2483,39 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     var box = $('hist-list');
     box.innerHTML = '';
     var rows = sync.rol === 'familia' ? ((remote && remote.registros) || []) : hist;
-    rows = rows.slice().sort(function(a, b){ return (b.fecha + b.hora).localeCompare(a.fecha + a.hora); });
+    rows = rows.slice().sort(function(a, b){ return (b.fecha + b.hora).localeCompare(a.fecha + a.hora) || String(b.id).localeCompare(String(a.id)); });
     var dias = [];
     rows.forEach(function(r){ if(dias.indexOf(r.fecha) < 0) dias.push(r.fecha); });
     dias = dias.slice(0, 3);
     if(!dias.length){
       var p = document.createElement('p'); p.className = 'hist-empty';
-      p.textContent = sync.rol === 'familia' ? (syncReady() ? 'Todavía no hay dosis registradas en los últimos días.' : 'Configurá la dirección y la clave en Personalizar → Registro familiar.') : 'Las dosis que confirmes van a aparecer acá.';
+      p.textContent = sync.rol === 'familia' ? (syncReady() ? 'Todavía no hay registros en los últimos días.' : 'Configurá la dirección y la clave en Personalizar → Registro familiar.') : 'Las dosis, hipoglicemias y colaciones que registres van a aparecer acá.';
       box.appendChild(p);
     }
     dias.forEach(function(f){
       var h = document.createElement('div'); h.className = 'hist-day'; h.textContent = dayLabel(f); box.appendChild(h);
       rows.filter(function(r){ return r.fecha === f; }).forEach(function(r){
-        var row = document.createElement('div'); row.className = 'hist-row';
+        var tipo = r.tipo || 'dosis';
+        var hasG = typeof r.glicemia === 'number' && isFinite(r.glicemia);
+        var red = tipo === 'hipo' || (hasG && r.glicemia < state.low);
+        var row = document.createElement('div'); row.className = 'hist-row' + (red ? ' red' : '');
+        row.dataset.tipo = tipo;
         var hh = document.createElement('span'); hh.className = 'hh'; hh.textContent = r.hora;
         var mm = document.createElement('span'); mm.className = 'mm'; mm.textContent = r.momento;
-        if(r.sync === 'pend'){ var tg = document.createElement('span'); tg.className = 'tag'; tg.textContent = 'pendiente'; mm.appendChild(tg); }
-        if(r.fueraHorario){ var tf = document.createElement('span'); tf.className = 'tag'; tf.textContent = 'fuera de horario'; mm.appendChild(tf); }
-        var gl = document.createElement('span'); gl.className = 'gl' + (r.glicemia < state.low ? ' low' : ''); gl.textContent = r.glicemia + ' mg/dL';
+        function tag(cls, t){ var e = document.createElement('span'); e.className = 'tag' + (cls ? ' ' + cls : ''); e.textContent = t; mm.appendChild(e); }
+        if(red) tag('hipo', 'HIPO');
+        if(tipo === 'ajuste') tag('aj', r.usuario ? 'por ' + r.usuario : 'ajuste');
+        if(r.sync === 'pend') tag('', 'pendiente');
+        if(r.fueraHorario) tag('', 'fuera de horario');
+        var gl = document.createElement('span');
+        if(hasG){
+          gl.className = 'gl' + (red ? ' low' : '');
+          gl.textContent = r.glicemia + ' mg/dL';
+          if(TR[r.tendencia]){ gl.insertAdjacentHTML('beforeend', trendSvg(r.tendencia)); gl.title = trendTxt(r.tendencia); }
+        } else { gl.className = 'gl none'; }
         var dd = document.createElement('span'); dd.className = 'dd';
-        dd.textContent = 'NPH ' + r.nph + ' U · RAPI ' + r.rapi + ' U' + (r.rapi ? ' (bolo ' + r.bolo + ' + corr. ' + r.correccion + ')' : '');
+        if(tipo === 'dosis') dd.textContent = 'NPH ' + r.nph + ' U · RAPI ' + r.rapi + ' U' + (r.rapi ? ' (bolo ' + r.bolo + ' + corr. ' + r.correccion + ')' : '');
+        else dd.textContent = String(r.detalle || '');
         row.appendChild(hh); row.appendChild(mm); row.appendChild(gl); row.appendChild(dd);
         box.appendChild(row);
       });
@@ -1748,7 +2541,8 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
     var fam = sync.rol === 'familia';
     $('fam-banner').hidden = !fam;
     document.querySelector('section[aria-label="Elegir comida"]').hidden = fam;
-    if(fam){ $('timer-pill').hidden = true; }
+    $('extra-card').hidden = fam;
+    if(fam){ $('timer-pill').hidden = true; $('hipo-pill').hidden = true; } else updHipo();
     renderSyncChip(); renderHist();
   }
 
@@ -1785,15 +2579,20 @@ h1{font-size:28px;letter-spacing:.01em;background:var(--grad);-webkit-background
   timer = loadTimer();
   buildSwatches();
   applyAll();
-  renderEditor();
+  renderLock();
   renderCorrTable();
-  $('low-in').value = state.low;
+  renderDoseTable();
   buildRows();
   updateHome();
   setInterval(updateHome, 20000);
   applyRole();
   if(sync.rol === 'familia') loadRemote(); else flush();
   if(timer && sync.rol !== 'familia'){ if(timer.end <= Date.now()) finishTimer(); else { showTimer(); runTick(); requestWake(); } }
+  if(hipo && sync.rol !== 'familia'){
+    if(hipo.end && hipo.end <= Date.now()) finishHipoTimer();
+    else if(hipo.end){ runHTick(); requestWake(); showHTimer(); }
+    else updHipo();
+  }
   document.addEventListener('visibilitychange', function(){ if(!document.hidden) updateHome(); });
 })();
 </script>

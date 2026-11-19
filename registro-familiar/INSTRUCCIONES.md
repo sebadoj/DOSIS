@@ -46,10 +46,21 @@ En la hoja **Familia**, una fila por persona: Nombre, Mail y **SI** en "Recibe m
 
 Para que la familia también abra la planilla directo, compartila desde Drive con permiso de **Lector**.
 
+## Actualizar a la versión 9 (si ya tenías el script instalado)
+1. Abrí la planilla → **Extensiones → Apps Script**.
+2. Copiá tus dos claves (`CLAVE_ESCRITURA` y `CLAVE_LECTURA`) a un costado.
+3. Borrá todo, pegá el `Codigo.gs` nuevo y volvé a poner tus dos claves.
+4. Guardá → **Implementar → Administrar implementaciones** → lápiz → Versión: **Nueva versión** → Implementar. La dirección no cambia.
+5. La hoja **Registro** suma sola 4 columnas al final (Tipo, Tendencia, Detalle, Usuario) con el primer dato nuevo. Las filas viejas no se tocan.
+
 ## Cómo funciona
 - **Sin internet:** la dosis queda guardada en el teléfono como "pendiente" y se envía sola cuando vuelve la conexión. Nunca se duplica: cada dosis tiene un código único.
-- **Qué se guarda:** fecha, hora, momento, glicemia, NPH, RAPI (bolo, corrección y total) y si fue fuera de horario.
-- **Mails:** uno por dosis confirmada, con asunto tipo `MIDOSIS · Desayuno 08:15 · NPH 12 U · RAPI 5 U`. Si la glicemia es menor a 70 o mayor a 400, el mail lo destaca. Google permite unos 100 mails por día en una cuenta común.
+- **Qué se guarda:** fecha, hora, momento, glicemia, tendencia (↑ ↗ → ↘ ↓), NPH, RAPI (bolo, corrección y total), si fue fuera de horario, y el tipo de registro:
+  - **Dosis** (como siempre).
+  - **HIPO**: cada paso de una hipoglicemia (Primera ingesta, Segunda ingesta, Ya está bien, Control: todavía no está bien). La fila queda **en rojo**. También queda en rojo cualquier registro con glicemia menor a 70.
+  - **Colación**: qué comió (columna Detalle) y la glicemia.
+  - **Cambio de dosis**: qué se cambió y quién (Juane o Mamá/Papá).
+- **Mails:** uno por registro. Asunto tipo `MIDOSIS · Desayuno 08:15 · NPH 12 U · RAPI 5 U`. En las hipoglicemias (y glicemias menores a 70) el mail arranca con **HIPO** grande en rojo y el asunto dice `MIDOSIS · HIPO · …`. Si la glicemia es mayor a 400, el mail lo destaca. Google permite unos 100 mails por día en una cuenta común.
 - **CSV:** en la planilla, Archivo → Descargar → Valores separados por comas (.csv).
 - **Lo que no se envía:** las tomas en 0 U (por ejemplo, Fuera de hora con glicemia menor a 180) no se registran.
 

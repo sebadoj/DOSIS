@@ -1,5 +1,5 @@
 /* MIDOSIS: service worker. Guarda la app para que abra sin internet. */
-const VERSION = 'midosis-v8';
+const VERSION = 'midosis-v9';
 const ARCHIVOS = [
   './',
   './index.html',
