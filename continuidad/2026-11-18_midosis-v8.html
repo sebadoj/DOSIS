@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIDOSIS · Continuidad 20261118</title>
+<style>
+:root{--bg:#f4f7fa;--surface:#fff;--ink:#0f1b2a;--muted:#5b6b7e;--line:#dde5ee;--accent:#0a84c6;--soft:#e3f2fb}
+@media (prefers-color-scheme:dark){:root{--bg:#0b1118;--surface:#121b25;--ink:#e8eef5;--muted:#8a9bb0;--line:#223142;--accent:#3ab0f0;--soft:#10283a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,'Segoe UI',sans-serif}
+main{max-width:860px;margin:0 auto;padding:32px 18px 60px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 24px}
+.links a{background:var(--accent);color:#fff;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:12px}
+.links a.alt{background:var(--soft);color:var(--accent)}
+h1{font-size:30px;line-height:1.15;margin:0 0 12px;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:21px;margin:34px 0 12px;padding-top:18px;border-top:1px solid var(--line)}
+p,li{max-width:72ch}code{font:14px ui-monospace,Menlo,monospace;background:var(--soft);padding:1px 6px;border-radius:6px}
+table{border-collapse:collapse;width:100%;margin:12px 0 18px;background:var(--surface);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}th{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+a{color:var(--accent)}
+</style></head><body><main>
+<div class="links"><a href="https://github.com/sebadoj/DOSIS">Repositorio DOSIS</a><a class="alt" href="https://claude.ai/artifact/V4jHiYPoMie52EDSpcrSXm">Vista previa de la app</a></div>
+<h1>MIDOSIS (app de dosis de insulina) — Resumen de continuidad</h1>
+<p><strong>Fecha:</strong> 2026-11-18
+<strong>Proyecto:</strong> PERSONAL · Proyecto de Claude "DIABETES"
+<strong>Chat original:</strong> construcción de la app MIDOSIS (antes "Mi2sis") desde una guía HTML de dosis hasta la versión 8: app instalable, cuenta regresiva para comer, registro familiar en planilla de Google y repositorio en GitHub.</p>
+<h2>Resumen ejecutivo</h2>
+<p>MIDOSIS es una app web instalable (PWA) que, según la comida y la glicemia, indica cuántas unidades de <strong>NPH</strong> y <strong>RAPI</strong> inyectarse, con una tabla de corrección configurable. La versión actual es la <strong>8 · 20261118</strong>, publicada en el repositorio <strong>https://github.com/sebadoj/DOSIS</strong> (rama <code>main</code>). Incluye: horarios con aviso de fuera de horario, cartel grande de dosis, confirmación "Ya me inyecté" con animación, cuenta regresiva de 15 min con pantalla verde "A COMER" y alarma, historial, y registro familiar (planilla de Google + mail por dosis + modo solo lectura para la familia). Todo está probado con pruebas automáticas (138 casos de dosis sin fallas). Queda pendiente: activar GitHub Pages, configurar la planilla real y probar contra Google y en el Samsung real.</p>
+<h2>Objetivos y decisiones</h2>
+<p><strong>Reglas de oro (no se cambian ni reinterpretan; cada cambio se prueba sin errores antes de entregar):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Momento</th>
+<th>Horario</th>
+<th>NPH</th>
+<th>RAPI bolo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desayuno</td>
+<td>8:00 a 11:00</td>
+<td>12 U</td>
+<td>3 U</td>
+</tr>
+<tr>
+<td>Almuerzo</td>
+<td>12:00 a 15:00</td>
+<td>—</td>
+<td>5 U</td>
+</tr>
+<tr>
+<td>Merienda</td>
+<td>16:00 a 18:00</td>
+<td>—</td>
+<td>3 U</td>
+</tr>
+<tr>
+<td>Cena</td>
+<td>20:00 a 22:00</td>
+<td>—</td>
+<td>5 U</td>
+</tr>
+<tr>
+<td>Pre dormir</td>
+<td>22:00 a 24:00</td>
+<td>12 U</td>
+<td>— (sin corrección)</td>
+</tr>
+<tr>
+<td>Fuera de hora</td>
+<td>sin horario</td>
+<td>—</td>
+<td>sin bolo, solo corrección</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Glicemia (mg/dL)</th>
+<th>Corrección RAPI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Menos de 180</td>
+<td>0</td>
+</tr>
+<tr>
+<td>180 a 250</td>
+<td>2</td>
+</tr>
+<tr>
+<td>251 a 300</td>
+<td>3</td>
+</tr>
+<tr>
+<td>301 a 350</td>
+<td>4</td>
+</tr>
+<tr>
+<td>351 a 400</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Más de 400</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>RAPI total = bolo + corrección. Límites incluyentes (180 y 250 dan 2; 251 da 3; 11:00 en punto todavía es desayuno).</p>
+<p><strong>Decisiones y correcciones de Seba (en orden):</strong>
+- "HPH" era NPH: siempre <strong>NPH</strong>.
+- La insulina rápida se llama <strong>RAPI</strong>, nunca "Rápida". Los nombres que define Seba no se cambian nunca.
+- Pre dormir: solo NPH 12, sin bolo ni corrección.
+- Horarios por comida; si se elige fuera de horario sale un cartel para aceptar. En la pantalla de cada comida <strong>no</strong> se muestra el horario.
+- Al elegir comida: transición a una pantalla con el nombre grande. Al dar OK a la glicemia: cartel grande con NPH y RAPI y botón "Ya me inyecté" con animación de giro, tilde y pulgar arriba.
+- Dosis básicas grandes y con ícono de lapicera que dice RAPI / NPH. Descripción "Bolo X + corrección Y", comida y glicemia en letra grande en el cartel.
+- <strong>Se eliminó</strong> la ilustración animada de la panza pellizcada ("no funciona").
+- <strong>Se eliminó</strong> el efecto de onda en botones; animaciones más elegantes y suaves.
+- Fuera de hora: primero se agregó un cartel rojo "NO APLICA" para glicemia ≤ 300 y <strong>después se eliminó</strong>: Fuera de hora calcula siempre con la tabla de corrección.
+- El nombre pasó de Mi2sis a <strong>MIDOSIS</strong>.
+- Los "Listo" del día se reinician al empezar el día siguiente.
+- Rangos de corrección y umbral de glicemia baja (70) editables en Personalizar, con validación.
+- Cuenta regresiva 15 min tras "Ya me inyecté" → pantalla verde "A COMER" + alarma. Solo en Desayuno/Almuerzo/Merienda/Cena (Pre dormir y Fuera de hora no tienen comida después; Seba no lo objetó).
+- Número de versión visible al final de Personalizar; se sube en cada entrega.
+- Registro familiar: elegido <strong>Planilla de Google + Apps Script</strong> (no CSV con OAuth) y familia ve <strong>planilla + app en solo lectura</strong>. Solo el usuario principal carga datos.
+- Las dosis registradas antes de activar el registro <strong>no</strong> se suben (para no mandar mails viejos).
+- Repositorio público <code>sebadoj/DOSIS</code> creado por Seba (se le avisó que las dosis base quedan visibles).</p>
+<p><strong>Bug importante resuelto:</strong> en la v. de 20261116 el contador animado de números dejaba <strong>NPH en 0</strong> en Desayuno y Pre dormir. Se eliminó el contador (el número final se muestra directo; la animación es solo visual) y se agregó la prueba de 138 casos que lo detecta.</p>
+<h2>Herramientas y artifacts creados</h2>
+<ul>
+<li><strong>Nombre:</strong> MIDOSIS (app)</li>
+<li><strong>Qué hace:</strong> guía de dosis NPH/RAPI por comida y glicemia, con cuenta regresiva, historial y registro familiar.</li>
+<li><strong>Ubicación:</strong> https://github.com/sebadoj/DOSIS (rama <code>main</code>, commit <code>da0e4f4</code> "MIDOSIS versión 8 · 20261118"). Vista previa (sin registro familiar): https://claude.ai/artifact/V4jHiYPoMie52EDSpcrSXm. Dirección de instalación prevista: <code>https://sebadoj.github.io/DOSIS/</code> (falta activar Pages).</li>
+<li><strong>Stack:</strong> un solo <code>index.html</code> (HTML + CSS + JS sin librerías), <code>manifest.webmanifest</code>, <code>sw.js</code> (service worker, funciona sin internet), íconos PNG, tipografías woff2 locales.</li>
+<li><strong>Estado:</strong> terminado v8; registro familiar probado solo contra simulación.</li>
+<li><strong>Nombre:</strong> Registro familiar (<code>registro-familiar/Codigo.gs</code> + <code>INSTRUCCIONES.md</code>)</li>
+<li><strong>Qué hace:</strong> Google Apps Script en una planilla: guarda cada dosis (hoja "Registro"), manda mail a quienes tengan SI en la hoja "Familia", devuelve el registro a la app de la familia.</li>
+<li><strong>Ubicación:</strong> carpeta <code>registro-familiar/</code> del repo; guía también en el proyecto DIABETES como <code>claude/midosis-registro-familiar.md</code>.</li>
+<li><strong>Estado:</strong> terminado; falta que Seba lo instale y lo pruebe con Google real.</li>
+</ul>
+<h2>Detalle técnico de desarrollo</h2>
+<p><strong>Archivos del repo:</strong> <code>index.html</code>, <code>manifest.webmanifest</code>, <code>sw.js</code>, <code>icons/</code> (icon-192, icon-512, icon-maskable-512, apple-touch-icon, favicon-32; gota con "M" en degradado azul-violeta), <code>fonts/</code> (Manrope, Sora, DM Sans, Fraunces, JetBrains Mono, variables latin woff2), <code>registro-familiar/</code>, <code>LEEME.md</code>, <code>README.md</code>, <code>.nojekyll</code>, <code>continuidad/</code>.</p>
+<p><strong>Versionado (subir los tres en cada entrega):</strong> <code>APP_VERSION</code> y <code>APP_DATE</code> en <code>index.html</code> (también el texto inicial del bloque <code>.appver</code>), y <code>VERSION = 'midosis-vN'</code> en <code>sw.js</code> (cambiarlo fuerza la actualización en los teléfonos). Actual: 8 / 20261118 / <code>midosis-v8</code>.</p>
+<p><strong>Datos en <code>index.html</code> (JS):</strong>
+- <code>MEALS</code> con <code>nph</code>, <code>bolo</code>, <code>from</code>/<code>to</code> en minutos, <code>soloBase</code> (Pre dormir), <code>soloCorr</code> (Fuera de hora, clave <code>extra</code>). <code>ORDER</code> = 5 comidas; <code>ALL</code> = ORDER + <code>extra</code>.
+- <code>DEFAULT_BANDS</code> = tabla de corrección. <code>correction(g)</code> busca en <code>state.bands</code>.
+- Cálculo en <code>calc()</code>: <code>corr = soloBase ? 0 : units</code>; <code>rapi = soloBase ? 0 : bolo + corr</code>; <code>result = {meal, g, nph, rapi, bolo, corr}</code>.
+- Glicemia: campo texto, solo 1 a 3 dígitos enteros (evita que 179,6 se redondee a 180).</p>
+<p><strong>localStorage (claves; algunas conservan el prefijo viejo a propósito para no perder datos):</strong>
+- <code>mi2sis-ajustes-v3</code>: personalización + rangos (<code>bands</code>) + umbral <code>low</code>. Al migrar desde <code>-v2</code> se conservan colores pero los rangos pasan a los nuevos base.
+- <code>mi2sis-registro-v1</code>: "Listo" del día (<code>{day, items}</code>), se reinicia al cambiar la fecha.
+- <code>midosis-timer-v1</code>: cuenta regresiva <code>{end, meal}</code> (sobrevive a cerrar la app).
+- <code>midosis-sync-v1</code>: <code>{rol: off|principal|familia, url, clave}</code> (no se borra con "Restablecer todo").
+- <code>midosis-historial-v1</code>: historial local (120 días / 600 registros), cada registro con <code>sync: pend|ok|local|rech</code>.
+- <code>midosis-remoto-v1</code>: último registro descargado en modo familia.</p>
+<p><strong>Cuenta regresiva:</strong> 15 min (<code>TIMER_MS</code>), anillo SVG, minimizar a una franja en inicio, cancelar con doble toque. Al terminar: overlay verde <code>#ov-eat</code>, pitidos con Web Audio (se habilita con el toque de "Ya me inyecté" o cualquier toque) + vibración, hasta 3 min o "Apagar alarma". Mantiene la pantalla encendida con Wake Lock. Limitación: con el teléfono bloqueado o la app en segundo plano Android puede pausarla; se pide permiso de notificaciones como refuerzo. Se recomendó además una alarma del reloj.</p>
+<p><strong>Registro familiar:</strong>
+- App → script: <code>POST</code> con <code>Content-Type: text/plain</code> y cuerpo JSON <code>{clave, registro}</code> o <code>{clave, accion:'probar'}</code>; <code>GET ?clave=…&amp;dias=7</code> (o <code>accion=probar</code>). Respuesta <code>{ok, …}</code>. Timeout 25 s.
+- Script: <code>CLAVE_ESCRITURA</code> (principal) y <code>CLAVE_LECTURA</code> (familia); valida tipos, enteros, <code>bolo + correccion === rapi</code>; evita duplicados por <code>id</code> (<code>md-&lt;base36&gt;-&lt;rand&gt;</code>); guarda fecha/hora como texto; <code>LockService</code> para escrituras simultáneas; mails con <code>MailApp</code> (asunto <code>MIDOSIS · Desayuno 08:15 · NPH 12 U · RAPI 5 U</code>, destaca glicemia &lt; 70 y &gt; 400).
+- Cola: si no hay internet la dosis queda <code>pend</code> y se reenvía al volver la conexión (evento <code>online</code>, al abrir, cada 2 min). <code>syncReady()</code> acepta <code>https://</code> (y <code>http://localhost</code> solo para pruebas).
+- Modo familia: oculta la carga de dosis, muestra banner y registro de 3 días, actualiza cada 2 min.
+- Implementación: Implementar → Aplicación web, "Ejecutar como: Yo", "Cualquier usuario". Para cambios futuros del script: Administrar implementaciones → Nueva versión (la URL no cambia).</p>
+<p><strong>Pruebas (Playwright + Chrome, pantalla 390×844, scripts en el entorno de Claude, no en el repo):</strong>
+- Dosis: 6 momentos × 23 glicemias (límites incluidos) = 138 casos + 16 controles de flujo → 0 fallas.
+- Cuenta regresiva: 18 controles → 0 fallas.
+- Script de Google contra simulación en Node: 19 pruebas → 0 fallas.
+- App + script simulado (servidor que corre el <code>Codigo.gs</code> real): 27 pruebas → 0 fallas.
+- No probado: Google real, Samsung real, iPhone.</p>
+<p><strong>Problemas conocidos de instalación (Samsung One UI 8.5):</strong> el aviso "no es una app segura" aparece si se abre el archivo directo, con <code>http://</code> o fuera de Chrome; con Play Protect hay que elegir "Instalar de todas formas". Tras desinstalar y reinstalar el ícono puede no aparecer: buscar "MIDOSIS" en el cajón, activar "Agregar nuevas aplicaciones a la pantalla de inicio", o borrar los datos del sitio en Chrome y reinstalar; alternativa: "Agregar a pantalla de inicio → acceso directo".</p>
+<p><strong>Publicación desde Claude:</strong> el push a <code>sebadoj/DOSIS</code> funciona (requirió dar acceso a la app de GitHub de Claude). Claude <strong>no</strong> puede activar GitHub Pages por API.</p>
+<h2>Tono y estilo de trabajo</h2>
+<ul>
+<li>Español rioplatense, directo, sin vueltas. Seba escribe rápido y con errores de tipeo: interpretar con cuidado; si un dato médico es ambiguo, confirmar antes.</li>
+<li>Prioridad absoluta: <strong>cero errores en dosis</strong>. Probar todo antes de entregar y decir qué se probó y qué no.</li>
+<li>Le gusta lo visual: estética moderna, limpia, con animaciones suaves y números grandes en los datos clave.</li>
+<li>Pide cambios cortos y seguidos; cada entrega sube la versión y se dice cómo verificarla en el teléfono.</li>
+</ul>
+<h2>Pendientes y próximos pasos</h2>
+<ul>
+<li>☐ Activar GitHub Pages: Settings → Pages → Deploy from a branch → <code>main</code> / <code>/ (root)</code>. Confirmar la dirección (<code>https://sebadoj.github.io/DOSIS/</code>).</li>
+<li>☐ Instalar MIDOSIS desde esa dirección en el Samsung (desinstalar la versión de otro hosting si la hay) y verificar "Versión 8" en Personalizar.</li>
+<li>☐ Configurar el registro familiar siguiendo <code>registro-familiar/INSTRUCCIONES.md</code> (planilla en la carpeta compartida, claves, hoja Familia, publicar, "Probar conexión").</li>
+<li>☐ Probar con Google real: una dosis de prueba, que llegue la fila y el mail; probar un teléfono en modo familia.</li>
+<li>☐ Probar en el Samsung la cuenta regresiva: sonido, vibración, pantalla encendida, notificación.</li>
+<li>☐ Hacer una pasada de dosis en el teléfono con valores conocidos (Desayuno 215 → NPH 12 / RAPI 5; Desayuno 320 → NPH 12 / RAPI 7).</li>
+<li>☐ Ideas abiertas que surgieron y no se pidieron: dosis básicas editables en Personalizar; cuenta regresiva también en Pre dormir/Fuera de hora; regla propia para Fuera de hora.</li>
+</ul>
+<h2>Contexto para retomar</h2>
+<ul>
+<li>Repositorio: <code>sebadoj/DOSIS</code> (público). Trabajar sobre <code>main</code>; subir versión en <code>index.html</code> (<code>APP_VERSION</code>, <code>APP_DATE</code>, texto <code>.appver</code>) y en <code>sw.js</code> (<code>midosis-vN</code>) en cada cambio. Próxima versión: <strong>9</strong>.</li>
+<li>Antes de cualquier cambio que toque cálculo, correr la matriz completa de dosis contra las tablas de este documento. Las tablas de "Reglas de oro" mandan sobre cualquier otra cosa.</li>
+<li>No renombrar RAPI ni NPH. No volver a poner el cartel NO APLICA ni la ilustración de la panza. No mostrar el horario en la pantalla de cada comida.</li>
+<li>No cambiar las claves de localStorage existentes sin migración (se perderían ajustes, historial y configuración del registro).</li>
+<li>La vista previa de claude.ai (artifact <code>V4jHiYPoMie52EDSpcrSXm</code>) no puede conectarse a Google; el registro solo funciona en la app instalada.</li>
+<li>Docs del proyecto DIABETES: <code>claude/midosis-registro-familiar.md</code> (guía de la planilla), <code>claude/investigacion-sensores-cgm-uruguay.md</code>, <code>claude/ayudante-hc-por-foto-investigacion.md</code>. El objetivo de fondo del proyecto es sumar datos de sensor, ingestas y análisis.</li>
+</ul>
+</main></body></html>
